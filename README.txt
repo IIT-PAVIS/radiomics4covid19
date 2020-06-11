@@ -1,4 +1,7 @@
 covidSimple.m describes a class to train a deep model to classify the prognosis of COVID-19 patients between "serious" and "mild" cases from a single chest x-ray image and some personal and clinical information, as provided by the CDI database (not present here). The different methods of the class include data preparation, database adaptation and training itself.
+
 covidSimpleTest.m is a script that implements an example in which several repetitions of a N-fold classification task can be  executed.
+
 preTrainModels.zip.XXX are the two pre-trained models needed to run the example in covidSimpleTest, while weightedClassificationLayer.m describes a custom classification layer that allows different classes to have different weights and misclassification errors.
-In order for the example to work, all of the file in the folder (unzipped, where needed) should be in the Matlab path.
+
+Requirements: Matlab Deep Learning Toolbox
