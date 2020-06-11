@@ -7,3 +7,5 @@ preTrainModels.zip.XXX are the two pre-trained models needed to run the example 
 
 Requirements: - Matlab Deep Learning Toolbox
               - Unzipping tool capable of handling multi-part archives (tested with Winrar and 7-zip File Manager)
+              
+WARNING: file names of images should match the corresponding entries in the .xls file. If you plan to modify the images (e.g. for pre-processing reasons), please take care to ensure that the correspondance is kept by either keeping file names unchanged or properly updating the .xls file.
