@@ -8,12 +8,30 @@ clc
 % led to subject death.
 
 % Define some variables
-nReps=10; % Number of repetitions executed
+nReps=25; % Number of repetitions executed
 nFolds=5; % n-fold cross validation is performed
 
 % Generate an instance of the covidSimple class. The only argument required
-% is the path of the folder containing images and their .xls description
-covidTest=covidSimple('D:\Data\2020_05_CDI_sampleFixed');
+% is the path of the folder containing images and their .xls description.
+% If the default directory exists, it will be used, otherwise prompts the
+% user to select database position
+defaultPath='D:\Data\2020_05_CDI_sampleFixed';
+if exist(defaultPath,'dir')
+    covidTest=covidSimple(defaultPath);
+else
+    covidTest=covidSimple(uigetdir(pwd,'Select folder containing CDI dataset:'));
+end
+
+% Look for pre-trained model files to be used in the following of this
+% example. If they cannot be found but the zip files can, unzip them. If
+% neither can be found, return an error and exit
+if ~exist('preTrainedNet.mat','file')
+    if exist('preTrainedModelsl.zip.001','file')
+        unzip('preTrainedModelsl.zip.001');
+    else
+        error('Cannot find files for preTrained models or their compressed version (''preTrainedNet.mat'' and ''preTrainedModelsl.zip.00X''');
+    end
+end
 
 % Modifies entries in the database in order to make them usable: missing
 % values are (rather arbitrarily) substituted with the mean of present

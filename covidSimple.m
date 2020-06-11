@@ -208,14 +208,14 @@ classdef covidSimple < handle
                 layers(end-2).Name='fcFinal';
                 layers(end)=weightedClassificationLayer(1./P);
                 layers(end).Name='classoutput'; % For resnets
-                lgraph=covidCDI.createLgraphUsingConnections(layers,netFile.resnet5Class.Connections);
+                lgraph=covidSimple.createLgraphUsingConnections(layers,netFile.resnet5Class.Connections);
             else
                 P=histcounts(this.lbls{1},'Normalization','probability');
                 layers=this.trndNet.Layers;
                 layers(end)=weightedClassificationLayer(1./P);
                 layers(end).Name='classoutput'; % For resnets
                 layers(end).Classes='auto';
-                lgraph=covidCDI.createLgraphUsingConnections(layers,this.trndNet.Connections);
+                lgraph=covidSimple.createLgraphUsingConnections(layers,this.trndNet.Connections);
             end
             
             batchSize=125;
@@ -228,7 +228,7 @@ classdef covidSimple < handle
                 'MiniBatchSize',batchSize, ...
                 'GradientThreshold',1, ...
                 'Verbose',false, ...
-                'Plots','none', ... %training-progress
+                'Plots','training-progress', ... %training-progress
                 'Shuffle','every-epoch', ... % every-epoch
                 'ValidationData',this.dataSets{2}, ...
                 'ValidationFrequency',valFreq, ...
