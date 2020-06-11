@@ -26,8 +26,8 @@ end
 % example. If they cannot be found but the zip files can, unzip them. If
 % neither can be found, return an error and exit
 if ~exist('preTrainedNet.mat','file')
-    if exist('preTrainedModelsl.zip.001','file')
-        unzip('preTrainedModelsl.zip.001');
+    if exist('preTrainedModelsI.zip.001','file')
+        !preTrainedModelsI.zip.001
     else
         error('Cannot find files for preTrained models or their compressed version (''preTrainedNet.mat'' and ''preTrainedModelsl.zip.00X''');
     end
