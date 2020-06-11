@@ -5,4 +5,5 @@ WARNING: it requires files present in this repository to be unzipped in a Matlab
 
 preTrainModels.zip.XXX are the two pre-trained models needed to run the example in covidSimpleTest, while weightedClassificationLayer.m describes a custom classification layer that allows different classes to have different weights and misclassification errors.
 
-Requirements: Matlab Deep Learning Toolbox
+Requirements: - Matlab Deep Learning Toolbox
+              - Unzipping tool capable of handling multi-part archives (tested with Winrar and 7-zip File Manager)
