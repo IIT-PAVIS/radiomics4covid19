@@ -34,7 +34,7 @@ epochs = 50
 batch_size = 32
 ImgSize = 224
 learn = 0.0005
-Experiment_Name = 'ResNet50-10-Fold-Only_Images'
+Experiment_Name = 'ResNet50-Only_Images'
 # Data Files
 train_data_path = BasePath + '/Data/data_files/Train.csv'
 Validate_data_path = BasePath + '/Data/data_files/Val.csv'
@@ -145,7 +145,7 @@ def Train_Model(files):
     model.compile(optimizer=sgd, loss='hinge', metrics=['accuracy'])
     model.summary()
 
-    #model.load_weights("/home/mohamad/Desktop/CDI/Vgg/Weights-ReNet50-Pneumonia3.h5")
+    #model.load_weights(BasePath +"PreTrained/Weights-ReNet50-Pneumonia.h5")
 
     mlp = create_mlp(34)
     combinedInput = concatenate([outputs, mlp.output])
