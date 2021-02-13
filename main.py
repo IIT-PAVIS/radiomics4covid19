@@ -33,7 +33,7 @@ num_class = 2
 epochs = 50
 batch_size = 32
 ImgSize = 224
-learn = 0.0005
+learn = 0.01
 Experiment_Name = 'ResNet50-Only_Images'
 # Data Files
 train_data_path = BasePath + '/Data/data_files/Train.csv'
@@ -70,20 +70,7 @@ def preprocessing(img,label):
     img = img/255
     label = np_utils.to_categorical(label, num_class)
     return img,label
-def normalize(lst):
-    s = sum(lst)
-    return (lambda x: float(x)/s, lst)
-def st_t_onumber(x):
-    import numbers
-    # if any number
-    if isinstance(x,numbers.Number):
-        return x
-    # if non a number try convert string to float or it
-    for type_ in (int, float):
-        try:
-            return type_(x)
-        except ValueError:
-            continue
+
 def data_generator(samples, batch_size, shuffle_data=True, resize=224):
     data_path = 'data_files/Train.csv'
     num_samples = len(samples)
@@ -130,22 +117,23 @@ def Train_Model(files):
     img_shape = (ImgSize, ImgSize, 3)
     inputs = Input(img_shape)
 
-    xception = ResNet50(include_top=False, weights=None, input_shape=img_shape)
-    xception.trainable = True
-    outputs1 = xception(inputs)
-    
+    BaseModel = ResNet50(include_top=False, weights=None, input_shape=img_shape, pooling=None)
+    BaseModel.trainable = True
+    outputs1 = BaseModel(inputs)
+
     outputs = BatchNormalization()(outputs1)
     outputs = GlobalAveragePooling2D()(outputs)
-    outputs = Dropout(0.25)(outputs)
+    outputs = Dropout(0.5)(outputs)
     outputs = Dense(64, activation='relu', kernel_regularizer=regularizers.l2(0.001))(outputs)
+    outputs = Dropout(0.5)(outputs)
     outputs2 = Dense(num_class, activation='softmax')(outputs)
-    
-    model = Model(inputs=[inputs], outputs=[outputs2])
-    sgd = optimizers.SGD(lr=learn, nesterov=True)
-    model.compile(optimizer=sgd, loss='hinge', metrics=['accuracy'])
-    model.summary()
 
-    #model.load_weights(BasePath +"PreTrained/Weights-ReNet50-Pneumonia.h5")
+    model1 = Model(inputs=[inputs], outputs=[outputs2])
+    sgd = optimizers.SGD(lr=learn, nesterov=True)
+    model1.compile(optimizer=sgd, loss='categorical_crossentropy', metrics=['accuracy'])
+
+
+    #model.load_weights(BasePath +"/PreTrained/Weights-ReNet50-Pneumonia.h5")
 
     mlp = create_mlp(34)
     combinedInput = concatenate([outputs, mlp.output])
@@ -153,7 +141,7 @@ def Train_Model(files):
     # ***************************************************************************************
     # Select The appropiate model
     # Combined Model
-    # x = Dense(num_classes, activation='softmax', kernel_initializer=initializer, kernel_regularizer=regularizers.l2())(combinedInput)
+    # x = Dense(num_class, activation='softmax', kernel_initializer=initializer, kernel_regularizer=regularizers.l2())(combinedInput)
     # Only Clinical Info
     # x = Dense(num_class)(mlp.output)  # Clinical Info Only
     # Only Images
@@ -162,7 +150,7 @@ def Train_Model(files):
 
     model = Model(inputs=[inputs, mlp.input], outputs=x)
     sgd = optimizers.SGD(lr=learn, nesterov=True)
-    model.compile(loss='hinge',
+    model.compile(loss='mean_squared_error',
                   optimizer=sgd,
                   metrics=['accuracy'])
 
