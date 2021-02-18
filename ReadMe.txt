@@ -4,7 +4,8 @@ The Code includes a Test code as well but the model needs to be trained first an
 
 WARNING: it requires CSV files containig the names of the images along with the labels in the corresponding next column 
 
-Pretrained weights from a different dataset must be added to ehnace the learning process of the ResNet Model
+Pretrained weights from a different dataset must be added to ehnace the learning process of the ResNet Model. To help the pretrained weights are uploaded in split arcive which can be downloaded and then used. 
+The dataset used to pretrain the weights is a public and is accessable on the given link (https://www.kaggle.com/paultimothymooney/chest-xray-pneumonia)
 
 The code can be executed in 3 different configurations where it can be targeted only for Images, only for Clinical Images or for Combined (Images + Clinical) Data, The Desired option can be selected from code line 154 to 160
 
