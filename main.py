@@ -24,7 +24,6 @@ from keras.applications.resnet50 import ResNet50
 
 # Setting GPU ID
 os.environ["CUDA_VISIBLE_DEVICES"]="0"
-
 BasePath = os.getcwd()
 print("BASE PATH : ",BasePath)
 
@@ -34,11 +33,9 @@ epochs = 50
 batch_size = 32
 ImgSize = 224
 learn = 0.01
-Experiment_Name = 'ResNet50-Only_Images'
-# Data Files
-train_data_path = BasePath + '/Data/data_files/Train.csv'
-Validate_data_path = BasePath + '/Data/data_files/Val.csv'
-test_data_path = BasePath + '/Data/data_files/Test.csv'
+Experiment_Name = 'ResNet50-10-Fold-Only_Images'
+
+
 
 
 #Clinical Information Model
@@ -63,7 +60,7 @@ def load_samples(csv_file):
         samples.append([samp,lab])
     return samples
 def shuffle_data(data):
-    data = shuffle(data)#,random_state=2)
+    data = shuffle(data)
     return data
 def preprocessing(img,label):
     img = cv2.resize(img,(ImgSize,ImgSize))
@@ -72,7 +69,6 @@ def preprocessing(img,label):
     return img,label
 
 def data_generator(samples, batch_size, shuffle_data=True, resize=224):
-    data_path = 'data_files/Train.csv'
     num_samples = len(samples)
     print("THE LENGTH = ", num_samples)
     while True:  # Loop forever so the generator never terminates
@@ -114,6 +110,10 @@ def data_generator(samples, batch_size, shuffle_data=True, resize=224):
 # Model Training
 def Train_Model(files):
 
+    train_data_path = files + '/Train.csv'
+    Validate_data_path = files + '/Val.csv'
+    test_data_path = files + '/Test.csv'
+
     img_shape = (ImgSize, ImgSize, 3)
     inputs = Input(img_shape)
 
@@ -132,8 +132,7 @@ def Train_Model(files):
     sgd = optimizers.SGD(lr=learn, nesterov=True)
     model1.compile(optimizer=sgd, loss='categorical_crossentropy', metrics=['accuracy'])
 
-
-    #model.load_weights(BasePath +"/PreTrained/Weights-ReNet50-Pneumonia.h5")
+    model1.load_weights(BasePath+ "/FineTune/PreTrained_weights.h5")
 
     mlp = create_mlp(34)
     combinedInput = concatenate([outputs, mlp.output])
@@ -141,7 +140,7 @@ def Train_Model(files):
     # ***************************************************************************************
     # Select The appropiate model
     # Combined Model
-    # x = Dense(num_class, activation='softmax', kernel_initializer=initializer, kernel_regularizer=regularizers.l2())(combinedInput)
+    # x = Dense(num_class, activation='softmax', kernel_regularizer=regularizers.l2())(combinedInput)
     # Only Clinical Info
     # x = Dense(num_class)(mlp.output)  # Clinical Info Only
     # Only Images
@@ -197,7 +196,6 @@ def Train_Model(files):
                                   epochs=epochs, validation_data=validation_generatorCustom,
                                   validation_steps=STEP_SIZE_VALID,
                                   callbacks=callbacks_list)
-    # model.save_weights(BasePath + '/Saved_Model/'+ name +'_model.h5')
     print("Training Complete and Weights are saved")
     # Saving the Model
     model.save(SaveDirPath + "/Complete_Model_Weights.h5")
@@ -277,3 +275,4 @@ def Train_Model(files):
 if __name__=='__main__':
     Data_file = BasePath + "/Data/data_files"
     Train_Model(Data_file)
+
