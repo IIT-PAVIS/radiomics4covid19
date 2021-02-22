@@ -16,3 +16,7 @@ Requirements: - Python3
 WARNING: file names of images should match the corresponding entries in the .xls file. If you plan to modify the images (e.g. for pre-processing reasons), please take care to ensure that the correspondance is kept by either keeping file names unchanged or properly updating the .xls file.
 
 WARNING: depending on your machine, you might receive GPU out of memory errors. If that is the case, try reducing batch size (line 34 of main.py)
+
+Database, algorithm and alternative approaches are described in detail in the paper "AIforCOVID: predicting the clinical outcomes in patients with COVID-19 applying AI to chest-X-rays. An Italian multicentre study", available at https://arxiv.org/abs/2012.06531
+
+Database is available upon request at https://aiforcovid.radiomica.it/
