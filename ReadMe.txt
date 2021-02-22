@@ -2,7 +2,7 @@ main.m contains a deep model to classify the prognosis of COVID-19 patients betw
 
 The Code includes a Test code as well but the model needs to be trained first and then test can be executed which in return will give a confusion matrix
 
-WARNING: it requires CSV files containig the names of the images along with the labels in the corresponding next column 
+WARNING: it requires folder with CSV files containig the names of the images along with the labels in the corresponding next column each for Train, test and Validation 
 
 Pretrained weights from a different dataset must be added to ehnace the learning process of the ResNet Model. To help the pretrained weights are uploaded in split arcive which can be downloaded and then used. 
 The dataset used to pretrain the weights is public and is accessable on the given link (https://www.kaggle.com/paultimothymooney/chest-xray-pneumonia)
