@@ -13,6 +13,10 @@ Requirements: - Python3
               - tensorflow = 1.4
               - keras = 2.1.5
 
+
+![E_6dUuQVgAI0SuJ](https://user-images.githubusercontent.com/45659899/219823140-15ffc3e1-1e1c-44a7-b199-ce2ca594eb1f.jpeg)
+
+
 WARNING: file names of images should match the corresponding entries in the .xls file. If you plan to modify the images (e.g. for pre-processing reasons), please take care to ensure that the correspondance is kept by either keeping file names unchanged or properly updating the .xls file.
 
 WARNING: depending on your machine, you might receive GPU out of memory errors. If that is the case, try reducing batch size (line 33 of main.py)
